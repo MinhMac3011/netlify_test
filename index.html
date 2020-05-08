@@ -1,0 +1,272 @@
+﻿<?php
+    	session_start();
+	include("conn.php");
+    	$id1 = $_SESSION["id"];
+    	$result1 = mysqli_query($conn, "SELECT * FROM sinh_vien WHERE masinhvien = '$id1'")
+				or die("failed to query database " .mysql_error());
+	$result2 = mysqli_query($conn, "SELECT lich_thi.mamon, lich_thi.ngaythi, lich_thi.cathi, lich_thi.maPhong,phongthi.soMay FROM `lich_thi`
+					INNER JOIN hoc_phan ON lich_thi.mamon = hoc_phan.mamon
+					INNER JOIN sinh_vien ON hoc_phan.masinhvien = sinh_vien.masinhvien
+					INNER JOIN phongthi ON lich_thi.maPhong = phongthi.maPhong
+					WHERE sinh_vien.masinhvien = '$id1'")
+				or die("failed to query database " .mysql_error());
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ExamReg</title>
+
+
+    <link href="../css/css1.css" rel="stylesheet" />
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--d<link href="/../css/font-awesome.min.css" rel="stylesheet" />-->
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="margin-bottom:0;background-color:#7386D5">
+        <!-- Brand -->
+
+        <a class="navbar-brand" href="#">
+            <img src="../ref/74613723_2387267021490597_5129562252877234176_n.png" style="width:80px;height:40px;border:solid;border-radius:10%" />
+            <strong> ExamReg </strong>for Student
+        </a>
+
+
+        <ul class="navbar-nav " style="margin-left:75%">
+
+            <!-- Dropdown User -->
+            <li class="nav-item dropleft">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    User
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#" onclick="openTab('my-account'); closeTab('home','exam-reg','print-form','setting')">
+                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                        My account
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                        Account Setting
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+
+    </nav>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Menu</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+
+                <li class="active">
+                    <a href="#" onclick="openTab('home');closeTab('exam-reg','print-form','my-account','setting')">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        Home
+                    </a>
+                </li>
+
+                <li class="active" onclick="openTab('exam-reg');closeTab('home','print-form','my-account','setting')">
+                    <a href="#homeSubmenu">
+                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                        Exam Register
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="#" onclick="openTab('print-form'); closeTab('home','exam-reg','setting','my-account')">
+                        <i class="fa fa-file-text" aria-hidden="true"></i>
+                        Print Register Form
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#" onclick="openTab('setting'); closeTab('home','exam-reg','print-form','my-account')">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                        Setting
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                        <span>Toggle Menu</span>
+                    </button>
+
+
+                </div>
+            </nav>
+
+            <div id="home">
+                <h2 style="margin-top: 40px">Trang chủ</h2>
+                <br />
+                <div id="home-content">
+
+                    <div class="row" style="margin-bottom:30px">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Subject Register</h5>
+                                    <p class="card-text">You can regist the exam of subject you studied</p>
+                                    <a href="#" class="btn btn-primary">Go </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Exam Category</h5>
+                                    <p class="card-text">Abc  jxncjds dhbsfnvjns vsjd</p>
+                                    <a href="#" class="btn btn-primary">Go </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Exam Result</h5>
+                                    <p class="card-text">See your exam register result and print it</p>
+                                    <a href="#" class="btn btn-primary">Go </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="exam-reg" style="display:none">
+                <h2 style="margin-top: 40px">Exam Register</h2>
+                <br />
+                <div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                        <th>Chọn</th>
+                        <th>Học phần </th>
+                        <th>Ngày thi </th>
+                        <th>Ca thi </th>
+                        <th>Phòng thi </th>
+                        <th>Số máy</th>
+                        </thead>
+                        <?php while($info2 = mysqli_fetch_array($result2) ): ?>
+                        <tbody>
+                            <tr>
+                                <td> <input type="checkbox" name="monthi" /> </td>
+                                <td> <?php echo $info2['mamon'];  ?> </td>
+                                <td> <?php echo $info2['ngaythi']; ?> </td>
+                                <td> <?php echo $info2['cathi']; ?> </td>
+                                <td> <?php echo $info2['maPhong']; ?> </td>
+                                <td> <?php echo $info2['soMay']; ?> </td>
+                                <?php endwhile; ?>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="display:block; margin-left:47%; margin-top:20px;">
+                        <input type="submit" id="submit_btn" value="Lưu" style="width:100px;" onclick="alert('Đăng ký thành công !')" />
+                    </div>
+                    <br />
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                    </div>
+                </div>
+            </div>
+
+            <div id="print-form" style="display:none">
+                <h2 style="margin-top: 40px">Print Register Form</h2>
+                <br />
+
+                
+
+            </div>
+
+            <div id="setting" style="display:none">
+                <h2 style="margin-top: 40px">Settings</h2>
+                <br />
+            </div>
+
+            <div id="my-account" style="display:none">
+                <h2 style="margin-top: 40px">My Account</h2>
+                <br />
+                <table class="table">
+                    <?php while($info = mysqli_fetch_array($result1) ): ?>
+
+                    <tr>
+                        <th scope="row">Họ và tên:</th>
+                        <td> <?php echo $info['hoten']; ?> </td>
+                        <th scope="row">Ngày sinh:</th>
+                        <td> <?php echo $info['birth']; ?> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mã số sinh viên:</th>
+                        <td> <?php echo $info['masinhvien']; ?> </td>
+                        <th scope="row">Lớp:</th>
+                        <td> <?php echo $info['lop']; ?> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Ngành:</th>
+                        <td> <?php echo $info['nganh']; ?> </td>
+                        <th scope="row">Khoa:</th>
+                        <td> <?php echo $info['khoa']; ?> </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Số điện thoại:</th>
+                        <td> <?php echo $info['Sdt']; ?> </td>
+                        <th scope="row">Email:</th>
+                        <td> <?php echo $info['email']; ?> </td>
+                    </tr>
+
+                    <?php endwhile; ?>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/jquery-3.3.1.slim.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+    <script>
+        function openTab(tab) {
+            document.getElementById(tab).style.display = "block"
+        }
+        function closeTab(tab1, tab2, tab3, tab4) {
+            document.getElementById(tab1).style.display = "none";
+            document.getElementById(tab2).style.display = "none";
+            document.getElementById(tab3).style.display = "none";
+            document.getElementById(tab4).style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
